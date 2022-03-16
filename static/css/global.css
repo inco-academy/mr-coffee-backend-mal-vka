@@ -1,0 +1,31 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "AvenirNext--regular";       
+    src: url("../assets/avenir-next/AvenirNextLTPro-Regular.otf")        
+}
+@font-face {
+    font-family: "AvenirNext--bold";       
+    src: url("../assets/avenir-next/AvenirNextLTPro-Bold.otf")        
+}
+
+body {    
+    --color-frame: #6a7b8bff;
+    --color-inner: #bac1c8ff;
+    --color-fontOnDarkBackground: white;
+    --color-fontOnLightBackground: #5c5b5bff;
+    color: var(--color-fontOnLightBackground);
+    background-color: #f5f5f5ff;    
+    font-family: "AvenirNext--regular", sans-serif;    
+    margin: 0;   
+    font-size: 22px;    
+    position: relative;
+}
+
+@media(max-width: 769px) {
+    body {
+        font-size: 18px;
+    }
+}

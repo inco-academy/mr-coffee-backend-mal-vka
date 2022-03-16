@@ -1,0 +1,20 @@
+.table {
+    width: 100%;
+    max-width: 500px;
+    /* max-height: 500px; */
+    margin: 50px auto;
+    display: block;
+    /* overflow-x: auto; */
+    border-spacing: 0;
+}
+
+.tableHeader {
+    width: 250px;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.cell {
+    width: 250px;
+    padding: 5px;
+}

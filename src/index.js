@@ -1,47 +1,65 @@
-// step 1
-
 const express = require("express");
 const dataJSON = require("./data");
+// const bodyParser = require("body-parser");
+const { sha256 } = require("js-sha256");
+const mustacheExpress = require("mustache-express");
+const tools = require("./tools")
 
 const app = express();
 const port = 3000;
 
-const bodyParser = require("body-parser");
-const { sha256 } = require("js-sha256");
-app.use(bodyParser.json());
+app.engine("mustache", mustacheExpress());
+app.set("view engine", "mustache");
+app.set("views", `${__dirname}/../views`);
 
-app.listen(port, () => {
-    console.log(`http://localhost:${port}/ is waiting for requests.`)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(`${__dirname}/../static`));
+
+
+// Adding form
+
+app.get("/schedules/new", (request, response) => {
+    response.render("form_newTerm", { users: tools.addId(dataJSON.users) });
+});
+
+app.get("/users/new", (request, response) => {
+    response.render("form_newUser", {});
 });
 
 
-// step 2
+// Basic functionalities of displaying data
 
 app.get("/", (request, response) => {
-    response.send("Welcome to our schedule website");
+    response.render("welcome", {});
 });
 
 app.get("/users", (request, response) => {
-    response.json(dataJSON.users);
+    response.render("users", { users: tools.addId(dataJSON.users) });
 });
 
 app.get("/schedules", (request, response) => {
-    response.send(dataJSON.schedules);
+    response.render("schedules", { schedules: dataJSON.schedules });
+});
+
+app.get("/users/:url_id", (request, response) => {
+    const user = dataJSON.users[request.params.url_id];
+    user.id = request.params.url_id;
+    response.render("user_details", user);
+});
+
+app.get("/users/:url_id/schedules", (request, response) => {
+    const user = dataJSON.users[request.params.url_id];
+    user.id = request.params.url_id;
+    response.render("user_schedules",
+        {
+            user: user,
+            user_schedules: dataJSON.schedules.filter(schedule => schedule.user_id === Number(request.params.url_id))
+        });
 });
 
 
-// step 3
-
-app.get("/users/:user_id", (request, response) => {
-    response.json(dataJSON.users[request.params.user_id]);
-});
-
-app.get("/users/:user_id/schedules", (request, response) => {
-    response.json(dataJSON.schedules.filter(item => item.user_id === Number(request.params.user_id)));
-});
-
-
-// step 4
+// Adding users & terms
 
 app.post("/schedules", (request, response) => {
     const schedule = request.body;
@@ -52,7 +70,7 @@ app.post("/schedules", (request, response) => {
         "end_at": schedule.end_at
     };
     dataJSON.schedules.push(scheduleObj);
-    response.json(scheduleObj);
+    response.redirect("/schedules");
 });
 
 app.post("/users", (request, response) => {
@@ -64,5 +82,10 @@ app.post("/users", (request, response) => {
         "password": sha256(user.password)
     };
     dataJSON.users.push(userObj);
-    response.json(userObj);
+    response.redirect(`/users/${dataJSON.users.length - 1}`);
+});
+
+
+app.listen(port, () => {
+    console.log(`http://localhost:${port}/ is waiting for requests.`)
 });
