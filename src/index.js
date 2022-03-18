@@ -51,6 +51,12 @@ app.get("/users", (request, response) => {
 // app.get("/schedules", (request, response) => {
 //     response.render("schedules", { schedules: dataJSON.schedules });
 // });
+// 3c:
+app.get("/schedule", async (req, res, next) => {
+    const schedule = await pool.query("SELECT * FROM schedule ORDER BY weekday, start_at;");
+
+    res.render("schedules", { schedules: schedule.rows });
+});
 
 app.get("/users/:url_id", (request, response) => {
     const user = dataJSON.users[request.params.url_id];

@@ -47,29 +47,24 @@
     <main class="main">
     
         <h1>Backoffice panel</h1>        
-        <h2>Schedules</h2>
+        <h2>Schedule</h2>
 
         <table class="table">            
             <thead>
                 <tr>                    
+                    <th class="tableHeader">employee</th>
                     <th class="tableHeader">day</th>
                     <th class="tableHeader">from</th>
-                    <th class="tableHeader">to</th>      
-                    <th class="tableHeader">employee</th>               
+                    <th class="tableHeader">to</th>
                 </tr>
             </thead>            
             <tbody>
                 {{#schedules}}
                 <tr>      
-                    <td class="cell">{{day}}</td>
+                    <td class="cell">{{name}}</td>
+                    <td class="cell">{{weekday}}</td>
                     <td class="cell">{{start_at}}</td>
                     <td class="cell">{{end_at}}</td>
-                    <td class="cell">{{user_id}}</td>
-                    <td>
-                        <a href="/users/{{user_id}}">
-                            <img class="iconSmall" src="/img/user.svg">
-                        </a>
-                    </td>                   
                 </tr>
                 {{/schedules}}
             </tbody>
@@ -82,7 +77,7 @@
                 </a>
             </li>
             <li class="main__navListItem">
-                <a class="link link--onLightBackground" href="/schedules/new">
+                <a class="link link--onLightBackground" href="/schedule/new">
                     + add term
                 </a>
             </li>
