@@ -28,9 +28,9 @@ const pool = new Pool({
 
 // Adding form
 
-// app.get("/schedules/new", (request, response) => {
-//     response.render("form_newTerm", { users: tools.addId(dataJSON.users) });
-// });
+app.get("/schedule/new", (request, response) => {
+    response.render("form_newTerm", { users: tools.addId(dataJSON.users) });
+});
 
 app.get("/users/new", (request, response) => {
     response.render("form_newUser", {});
@@ -53,9 +53,9 @@ app.get("/users", (request, response) => {
 // });
 // 3c:
 app.get("/schedule", async (req, res, next) => {
-    const schedule = await pool.query("SELECT * FROM schedule ORDER BY weekday, start_at;");
+    const schedule = await pool.query("SELECT * FROM schedule ORDER BY date, start_at;");
 
-    res.render("schedules", { schedules: schedule.rows });
+    res.render("schedules", { schedules: tools.datetimeFormatter(schedule.rows) });
 });
 
 app.get("/users/:url_id", (request, response) => {
@@ -77,6 +77,7 @@ app.get("/users/:url_id/schedules", (request, response) => {
 
 // Adding users & terms
 
+//3b:
 // app.post("/schedules", (request, response) => {
 //     const schedule = request.body;
 //     const scheduleObj = {
