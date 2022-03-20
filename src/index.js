@@ -1,6 +1,5 @@
 const express = require("express");
 const dataJSON = require("./data");
-// const bodyParser = require("body-parser"); // niepotrzebny - funkcja wbudowana w Expressa
 const { sha256 } = require("js-sha256");
 const mustacheExpress = require("mustache-express");
 const tools = require("./tools")
@@ -12,8 +11,9 @@ app.engine("mustache", mustacheExpress());
 app.set("view engine", "mustache");
 app.set("views", `${__dirname}/../views`);
 
-app.use(express.json()); //zamiast body-parsera
-app.use(express.urlencoded({ extended: false })); //zamiast body-parsera
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.static(`${__dirname}/../static`));
 
 const { Pool } = require("pg");
@@ -33,14 +33,14 @@ app.get("/schedule/new", (request, response) => {
 });
 
 app.get("/users/new", (request, response) => {
-    response.render("form_newUser", {});
+    response.render("form_newUser");
 });
 
 
 // Basic functionalities of displaying data
 
 app.get("/", (request, response) => {
-    response.render("welcome", {});
+    response.render("welcome");
 });
 
 app.get("/users", (request, response) => {
@@ -53,9 +53,10 @@ app.get("/users", (request, response) => {
 // });
 // 3c:
 app.get("/schedule", async (req, res, next) => {
-    const schedule = await pool.query("SELECT * FROM schedule ORDER BY date, start_at;");
-
-    res.render("schedules", { schedules: tools.datetimeFormatter(schedule.rows) });
+    let schedule = await pool.query("SELECT * FROM schedule ORDER BY date, start_at;");
+    schedule = tools.addUserName(schedule.rows, dataJSON.users);
+    schedule = tools.datetimeFormatter(schedule);
+    res.render("schedules", { schedules: schedule });
 });
 
 app.get("/users/:url_id", (request, response) => {
@@ -64,16 +65,28 @@ app.get("/users/:url_id", (request, response) => {
     response.render("user_details", user);
 });
 
-app.get("/users/:url_id/schedules", (request, response) => {
+//3b:
+// app.get("/users/:url_id/schedules", (request, response) => {
+//     const user = dataJSON.users[request.params.url_id];
+//     user.id = request.params.url_id;
+//     response.render("user_schedules",
+//         {
+//             user: user,
+//             user_schedules: tools.filterByUserId(dataJSON.schedules, Number(request.params.url_id))
+//         });
+// });
+//3c:
+app.get("/users/:url_id/schedule", async (request, response) => {
     const user = dataJSON.users[request.params.url_id];
     user.id = request.params.url_id;
+    const schedules = await pool.query(`SELECT * FROM schedule WHERE user_id = ${user.id} ORDER BY date, start_at;`);
+
     response.render("user_schedules",
         {
             user: user,
-            user_schedules: dataJSON.schedules.filter(schedule => schedule.user_id === Number(request.params.url_id))
+            user_schedules: tools.datetimeFormatter(schedules.rows)
         });
 });
-
 
 // Adding users & terms
 
@@ -89,6 +102,16 @@ app.get("/users/:url_id/schedules", (request, response) => {
 //     dataJSON.schedules.push(scheduleObj);
 //     response.redirect("/schedules");
 // });
+//3c:
+app.post("/schedule", async (request, response) => {
+    const { user_id, date, start_at, end_at } = request.body;
+    await pool.query(`INSERT INTO schedule
+        (user_id, date, start_at, end_at)
+    VALUES
+        ('${user_id}', '${date}', '${start_at}', '${end_at}' 
+    );`);
+    response.redirect("/schedule");
+});
 
 app.post("/users", (request, response) => {
     const user = request.body;

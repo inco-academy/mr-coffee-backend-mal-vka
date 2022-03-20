@@ -19,29 +19,29 @@ module.exports.users = [
     }
 ]
 
-module.exports.schedules = [
-    {
-        "user_id": 0,
-        "day": 1,
-        "start_at": "2PM",
-        "end_at": "4PM"
-    },
-    {
-        "user_id": 0,
-        "day": 2,
-        "start_at": "2PM",
-        "end_at": "4PM"
-    },
-    {
-        "user_id": 0,
-        "day": 3,
-        "start_at": "2PM",
-        "end_at": "4PM"
-    },
-    {
-        "user_id": 2,
-        "day": 5,
-        "start_at": "8AM",
-        "end_at": "6PM"
-    }
-]
+// module.exports.schedules = [
+//     {
+//         "user_id": 0,
+//         "day": 1,
+//         "start_at": "2PM",
+//         "end_at": "4PM"
+//     },
+//     {
+//         "user_id": 0,
+//         "day": 2,
+//         "start_at": "2PM",
+//         "end_at": "4PM"
+//     },
+//     {
+//         "user_id": 0,
+//         "day": 3,
+//         "start_at": "2PM",
+//         "end_at": "4PM"
+//     },
+//     {
+//         "user_id": 2,
+//         "day": 5,
+//         "start_at": "8AM",
+//         "end_at": "6PM"
+//     }
+// ]

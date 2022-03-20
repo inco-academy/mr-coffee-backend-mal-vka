@@ -52,7 +52,7 @@
         <table class="table">
             <caption>
                 {{#user}}        
-                    <h3>Employee {{firstname}} {{lastname}} (ID: {{id}}) schedule:</h3>
+                    <h3>Employee {{firstname}} {{lastname}} schedule:</h3>
                 {{/user}}
             </caption>              
             <thead>
@@ -65,7 +65,7 @@
             <tbody>
                 {{#user_schedules}}
                 <tr>      
-                    <td class="cell">{{day}}</td>
+                    <td class="cell">{{weekday}}</td>
                     <td class="cell">{{start_at}}</td>
                     <td class="cell">{{end_at}}</td>   
                 </tr>
@@ -80,7 +80,7 @@
                 </a>
             </li>
             <li class="main__navListItem">
-                <a class="link link--onLightBackground" href="/schedules">
+                <a class="link link--onLightBackground" href="/schedule">
                     full schedule >
                 </a>
             </li>

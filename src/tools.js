@@ -5,8 +5,17 @@ const addId = (arr) => {
     return arr;
 };
 
+const addUserName = (arr, users) => {
+    arr.forEach(obj => {
+        console.log(users[obj.user_id]);
+        obj.firstname = users[obj.user_id].firstname;
+        obj.lastname = users[obj.user_id].lastname;
+    });
+    return arr;
+};
+
 const datetimeFormatter = (arr) => {
-    arr.forEach((obj) => {
+    arr.forEach(obj => {
         obj.weekday = obj.date.toLocaleString('pl-PL', {
             weekday: "long"
         });
@@ -16,8 +25,13 @@ const datetimeFormatter = (arr) => {
     return arr;
 };
 
+const filterByUserId = (arr, url_id) => {
+    return arr.filter(item => item.user_id === url_id);
+};
 
 module.exports = {
     addId: addId,
-    datetimeFormatter: datetimeFormatter
+    datetimeFormatter: datetimeFormatter,
+    filterByUserId: filterByUserId,
+    addUserName: addUserName
 };
