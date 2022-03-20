@@ -1,0 +1,81 @@
+main {    
+    min-height: calc(100vh - (119.05px + 100px + 83.41px));
+    max-width: 1000px;      
+    margin: 0 auto;    
+}
+
+h1 {
+    margin: 50px auto;   
+    text-align: center;
+}
+
+h2 {
+    font-family: "AvenirNext--bold", sans-serif;   
+    font-size: 34px;
+    text-align: center;    
+    margin: 100px auto;
+}
+
+@media(max-width: 600px), (max-height: 1000px) {
+    h2 {
+        font-size: 30px;
+        margin: 30px auto;
+    }
+}
+
+.main__navList {
+    list-style: none; 
+    padding: 0; 
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 50px;   
+    justify-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 50px auto;
+}
+
+.iconBig {
+    width: 120px;
+    display: block;
+    margin: 30px auto;  
+}
+
+.iconSmall {
+    width: 20px;
+    display: block;
+    margin: 5px auto;  
+}
+
+.link {
+    text-decoration: none;
+    color: var(--color-fontOnDarkBackground);
+}
+
+.link--onLightBackground {    
+    color: var(--color-fontOnLightBackground);
+}
+
+.link:hover {
+    text-decoration: underline;            
+}
+
+.button {
+    display: block;
+    width: 240px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 3px 3px 3px lightgray; 
+    margin: 70px auto 100px;
+    padding: 20px;
+    background-color: var(--color-frame);    
+    color: var(--color-fontOnDarkBackground);
+    font-size: 20px;
+    font-family: "AvenirNext--bold", sans-serif;
+    font-weight: bold;   
+    letter-spacing: 1.5px; 
+}
+
+.button:hover {
+    opacity: 0.8;    
+}
